@@ -1,0 +1,32 @@
+name: Publish Lua (obfuscated)
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v3
+
+      # Obfuscate src/loader.lua
+      - run: |
+            curl -X POST https://luaobfuscator.com/api/obfuscator/newscript \
+            -H "Content-type: application/json" \
+            -H "apikey: test" \
+            -d $(cat src/loader.lua) \
+            | curl -X POST https://luaobfuscator.com/api/obfuscator/obfuscate \
+            -H "Content-type: application/json" \
+            -H "apikey: test" \
+            -d '{ "MinifiyAll":false, "ChopChain":false, "funcs":null, "variables":null, "Virtualize":false, "Virtualize2":false, "CustomPlugins": { "SwizzleLookups" : [100], "EncryptStrings" : [100], "RevertAllIfStatements": [50],"ControlFlowFlattenAllBlocks": [75] } }' \
+            -H "sessionId: $(grep -o -P '(?<="sessionId":").*(?="})')"
+
+      - name: Create artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: publish
+          path: src/RestAPI/bin/Release/net6.0/publish
+
