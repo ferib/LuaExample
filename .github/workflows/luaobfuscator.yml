@@ -21,11 +21,10 @@ jobs:
         shell: bash {0}
         run: |
             mkdir public
-            luascript=$(cat src/loader.lua)
             curl -X POST https://luaobfuscator.com/api/obfuscator/newscript \
             -H "Content-type: application/json" \
             -H "apikey: test" \
-            -d $luascript \
+            --data-binary "@src/loader.lua" \
             | curl -X POST https://luaobfuscator.com/api/obfuscator/obfuscate \
             -H "Content-type: application/json" \
             -H "apikey: test" \
