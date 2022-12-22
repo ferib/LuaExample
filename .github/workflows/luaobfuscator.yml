@@ -12,8 +12,13 @@ jobs:
 
       - uses: actions/checkout@v3
 
-      # Obfuscate src/loader.lua
+      # make sure it installed?
       - run: |
+            apt install jq curl -y
+
+      # Obfuscate src/loader.lua > public/loader.lua
+      - run: |
+            mkdir public
             curl -X POST https://luaobfuscator.com/api/obfuscator/newscript \
             -H "Content-type: application/json" \
             -H "apikey: test" \
@@ -22,11 +27,14 @@ jobs:
             -H "Content-type: application/json" \
             -H "apikey: test" \
             -d '{ "MinifiyAll":false, "ChopChain":false, "funcs":null, "variables":null, "Virtualize":false, "Virtualize2":false, "CustomPlugins": { "SwizzleLookups" : [100], "EncryptStrings" : [100], "RevertAllIfStatements": [50],"ControlFlowFlattenAllBlocks": [75] } }' \
-            -H "sessionId: $(grep -o -P '(?<="sessionId":").*(?="})')"
+            -H "sessionId: $(grep -o -P '(?<="sessionId":").*(?="})')" \
+            | jq -r ".code" \
+            > public/loader.lua
 
+      # publish public/loader.lua
       - name: Create artifact
         uses: actions/upload-artifact@v1
         with:
-          name: publish
-          path: src/RestAPI/bin/Release/net6.0/publish
+          name: release_protected
+          path: public/
 
