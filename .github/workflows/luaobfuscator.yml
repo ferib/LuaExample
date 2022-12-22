@@ -17,7 +17,9 @@ jobs:
             sudo apt-get install jq curl -y
 
       # Obfuscate src/loader.lua > public/loader.lua
-      - run: |
+      - name: LuaObfuscator REST API
+        shell: bash {0}
+        run: |
             mkdir public
             curl -X POST https://luaobfuscator.com/api/obfuscator/newscript \
             -H "Content-type: application/json" \
