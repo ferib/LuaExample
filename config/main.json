@@ -1,0 +1,22 @@
+{
+    "MinifiyAll": false,
+    "ChopChain": false,
+    "funcs": null,
+    "variables": null,
+    "Virtualize": false,
+    "Virtualize2": false,
+    "CustomPlugins": {
+        "SwizzleLookups": [
+            100
+        ],
+        "EncryptStrings": [
+            100
+        ],
+        "RevertAllIfStatements": [
+            50
+        ],
+        "ControlFlowFlattenAllBlocks": [
+            75
+        ]
+    }
+}
