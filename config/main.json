@@ -1,22 +1,18 @@
 {
-    "MinifiyAll": false,
-    "ChopChain": false,
-    "funcs": null,
-    "variables": null,
-    "Virtualize": false,
-    "Virtualize2": false,
+    "MinifiyAll": true,
+    "Multifile": true,
     "CustomPlugins": {
         "SwizzleLookups": [
             100
         ],
-        "EncryptStrings": [
+        "EncryptFuncDeclaration": [
             100
         ],
-        "RevertAllIfStatements": [
-            50
+        "ControlFlowFlattenV1AllBlocks": [
+            100
         ],
-        "ControlFlowFlattenAllBlocks": [
-            75
+        "JunkifyAllIfStatements": [
+            100
         ]
     }
 }
