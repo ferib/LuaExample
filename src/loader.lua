@@ -1,27 +1,45 @@
--- Test lua script
+local nn = ...
+local Draw = Utils.Draw:New()
 
--- check for prime
-function sieve_of_eratosthenes(n)
-local is_prime = { }
-    for i = 1, n do
-        is_prime[i] = 1 ~= i
+Draw:Sync(function(draw)
+    local px, py, pz = ObjectPosition("player")
+    local tx, ty, tz = ObjectPosition("target")
+
+    if IsShiftKeyDown() then
+        -- TODO
     end
-    for i = 2, math.floor(math.sqrt(n)) do
-        if is_prime[i] then
-            for j = i* i, n, i do
-                is_prime[j] = false
+
+    -- store for later
+    local oldf = nn.GetFocus()
+
+    local os = nn.ObjectManager(6)
+    for i=1, #os  do
+        local o = os[i]
+        local name = ObjectName(o)
+        local x, y, z = ObjectPosition(o)
+        if x == nil then
+            print(o)
+        end
+
+        -- distance filter to avoid FPS drop
+        local dist = ((px-x)*(px-x))+((py-y)*(py-y))+((pz-z)*(pz-z))
+        -- TODO: this distance is wrong?
+        if (#os > 30 and dist < 1200) 
+        or dist < 4000
+        then
+            nn.SetFocus(o);
+            if UnitIsEnemy("player", "focus") then
+                draw:SetColor(draw.colors.red)
+            else
+                draw:SetColor(draw.colors.green)
             end
+            draw:Line(px, py, pz, x, y, z)
+            draw:Text("[" .. floor(dist) .. "] - " .. name, "GameTooltipTextSmall", x, y, z+4);
+            draw:Circle(x, y, z, 1.5)
         end
     end
-    return is_prime
-end
+    nn.SetFocus(oldf)
+end)
 
--- find prime numbers up until 420
-local primes = sieve_of_eratosthenes(420)
-
--- print results
-for key, value in pairs(primes) do
-    if (value) then
-        print("Prime found: " .. key)
-    end
-end
+Draw:Enable()
+print("OK")
