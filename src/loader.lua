@@ -1,6 +1,9 @@
 local nn = ...
 local Draw = Utils.Draw:New()
 
+local foo = require("foo.lua");
+print("Magic nuber: ", foo)
+
 Draw:Sync(function(draw)
     local px, py, pz = ObjectPosition("player")
     local tx, ty, tz = ObjectPosition("target")
