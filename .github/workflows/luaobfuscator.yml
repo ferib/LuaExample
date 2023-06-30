@@ -25,7 +25,8 @@ jobs:
             curl -X POST https://luaobfuscator.com/api/obfuscator/newscript \
             -H "Content-type: application/json" \
             -H "apikey: test" \
-            --data-binary "@src/loader.lua" \
+            -F loader.lua=@src/loader.lua \
+            -F foo.lua=@src/foo.lua \
             | curl -X POST https://luaobfuscator.com/api/obfuscator/obfuscate \
             -H "Content-type: application/json" \
             -H "apikey: test" \
