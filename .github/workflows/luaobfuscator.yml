@@ -23,7 +23,7 @@ jobs:
         run: |
             mkdir public
             curl -X POST https://luaobfuscator.com/api/obfuscator/newscript \
-            -H "Content-type: application/json" \
+            -H "Content-type: multipart/form-data" \
             -H "apikey: test" \
             -F loader.lua=@src/loader.lua \
             -F foo.lua=@src/foo.lua \
