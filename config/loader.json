@@ -1,5 +1,6 @@
 {
-    "MinifiyAll": false,
+    "MinifiyAll": true,
+    "ASCIIArt": "feet_1",
     "funcs": null,
     "variables": null,
     "Virtualize": true,
@@ -24,7 +25,6 @@
         ],
         "JunkifyAllIfStatements": [
             50
-        ],
-        "FeetFuscator": "feet_1"
+        ]
     }
 }
